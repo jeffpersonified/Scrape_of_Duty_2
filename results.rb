@@ -12,7 +12,7 @@ class Results
   def posts
     @posts = []
     @doc.css('p').each do |post|
-      @posts << Post.new([get_url(post.css('a')), post.css('span')[1].text, post.css('span')[5].text, post.css('span')[6].text[2...-1], post.css('a').text.downcase])
+      @posts << Post.new([post.at_css('a')[:href], post.css('span')[1].text, post.css('span')[5].text, post.css('span')[6].text[2...-1], post.css('a').text.downcase])
     end
     return @posts
   end
