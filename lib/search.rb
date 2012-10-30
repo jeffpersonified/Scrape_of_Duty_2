@@ -23,11 +23,5 @@ class Search
 
 end
 
-#search = Search.new("yankees")
+# search = Search.new("yankees")
 # search.gen_html
-
-
-
-
-
-

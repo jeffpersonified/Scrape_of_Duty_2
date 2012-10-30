@@ -2,6 +2,7 @@ require 'simplecov'
 SimpleCov.start
 
 require './lib/results.rb'
+require './lib/search.rb'
 require 'fakeweb'
 
 describe Search do
