@@ -1,6 +1,6 @@
 require 'nokogiri'
-require './lib/search.rb'
-require './lib/post.rb'
+require_relative 'search'
+require_relative 'post'
 
 class Results
   attr_reader :doc, :search_url
@@ -10,19 +10,30 @@ class Results
     @search_url = url
   end
 
-  def posts
-    @posts = []
-    @doc.css('p').each do |post|
-      @posts << Post.new([post.at_css('span.itemdate+span.itemsep+a')[:href], post.css('span')[1].text, post.css('span')[5].text, post.css('span')[6].text[2...-1], post.css('a').text.downcase])
+  def post_attributes
+    post_attributes = []
+    @doc.css('p').each do |row|
+      links = row.at_css('a')[:href]
+      date = row.css('span')[1].text
+      price = row.css('span')[5].text
+      location = row.css('span')[6].text[2...-1]
+      title = row.css('a')[0].text.downcase
+      category = row.css('a')[1].text.downcase
+      post_attributes << [links, date, price, location, title, category]
     end
-    return @posts
+    post_attributes
   end
 
-  # def get_url(chunk)
-  #   chunk.select{ |chunk| return chunk['href'] }
-  # end
+  def posts
+    posts = []
+    post_attributes.each { |row| posts << Post.new(row) }
+    posts
+  end
 
+  def to_s
+    posts.each { |post| puts "listing: #{post.title}\nurl: #{post.url}\n\n" }
+  end
 end
-# #
-#  search = Search.new("yankees")
-#  puts search.results.posts[0].inspect
+
+# search = Search.new("yankees")
+# puts search.results
