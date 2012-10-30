@@ -2,7 +2,7 @@ require './search.rb'
 require './post.rb'
 
 class Results
-  attr_reader :doc
+  attr_reader :doc, :search_url
 
   def initialize(html, url)
     @doc = html
@@ -17,11 +17,11 @@ class Results
     return @posts
   end
 
-  def get_url(chunk)
-    chunk.select{ |chunk| return chunk['href'] }
-  end
+  # def get_url(chunk)
+  #   chunk.select{ |chunk| return chunk['href'] }
+  # end
 
 end
 #
-search = Search.new("yankees")
-puts search.results.posts[0].inspect
+# search = Search.new("yankees")
+# puts search.results.posts[0].inspect
