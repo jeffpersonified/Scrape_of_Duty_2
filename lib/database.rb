@@ -14,9 +14,9 @@ class CraigsDatabase
       insert_string = "INSERT INTO users (name, password, username, email)
                       VALUES ('#{object.name}', '#{object.password}', '#{object.username}', '#{object.email}');"
     when Post
-      insert_string = "INSERT INTO posts (search_id, posted_at, title, price, neighborhood, post_url, content)
+      insert_string = "INSERT INTO posts (search_id, posted_at, title, price, neighborhood, post_url, category)
                       VALUES ('#{return_id(object.search_url, 1)}', '#{object.posted_at}', '#{object.title}', '#{object.price}',
-                      '#{object.neighborhood}', '#{object.post_url}', '#{object.content}');"
+                      '#{object.neighborhood}', '#{object.post_url}', '#{object.category}');"
     when Search
       insert_string = "INSERT INTO searches (search_url, category, region, min_price, max_price, keyword, user_id)
                       VALUES ('#{object.search_url}', '#{object.category}', '#{object.region}',
@@ -41,6 +41,15 @@ class CraigsDatabase
     db_handler(finder_string)
   end
 
+  def self.get_posts(date, *items)
+    finder_string "SELECT "
+    (items.length - 1).times do |i|
+      finder_string += "p.#{items[i]}, "
+    end
+    finder_string += "p.#{items[-1]} FROM posts p WHERE posted_at like '#{date}%';"
+    db_handler(finder_string)
+  end
+
   def self.return_id(search_param, case_no)
     case case_no
     when 0
@@ -51,8 +60,7 @@ class CraigsDatabase
     db_handler(finder_string)
   end
 
-
-  def self.find_item(search_word, search_class, table)
+def self.find_item(search_word, search_class, table)
     finder_string = "SEARCH * FROM #{table} WHERE #{search_class} = #{search_word};"
     db_handler(finder_string)
   end
