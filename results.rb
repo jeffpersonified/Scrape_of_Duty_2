@@ -1,27 +1,27 @@
 require './search.rb'
-#require 'Nokogiri'
-#require 'open-uri'
+require './post.rb'
 
 class Results
+  attr_reader :doc
 
-  def initialize(html)
+  def initialize(html, url)
     @doc = html
-    @links = []
+    @search_url = url
   end
 
-  def css_links
-    @docs.css('a')
-  end
-
-  def links
-    css_links.select do |link|
-      @links << link['href'] if /http:\/\/sfbay/.match(link['href'])
+  def posts
+    @posts = []
+    @doc.css('p').each do |post|
+      @posts << Post.new([get_url(post.css('a')), post.css('span')[1].text, post.css('span')[5].text, post.css('span')[6].text[2...-1], post.css('a').text.downcase])
     end
-    return @links[0...-1]
+    return @posts
+  end
+
+  def get_url(chunk)
+    chunk.select{ |chunk| return chunk['href'] }
   end
 
 end
-
+#
 search = Search.new("yankees")
-
-puts search.results.links
+puts search.results.posts[0].inspect
