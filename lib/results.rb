@@ -19,9 +19,10 @@ class Results
       location = row.css('span')[6].text[2...-1]
       title = row.css('a')[0].text.downcase
       category = row.css('a')[1].text.downcase
-      post_attributes << [links, date, price, location, title, category]
+      post_attributes << [links, date, price, location, title, category, @search_url]
     end
     post_attributes
+    CraigsDatabase.to_database()
   end
 
   def posts

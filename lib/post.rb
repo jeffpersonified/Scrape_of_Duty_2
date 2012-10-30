@@ -8,5 +8,6 @@ class Post
     @location = array[3].strip
     @title    = array[4].strip
     @category = array[5].strip
+    @search_url = array[6]
   end
 end
