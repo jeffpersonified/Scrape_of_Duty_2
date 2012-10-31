@@ -1,20 +1,18 @@
-require 'sqlite3'
-require './lib/database.rb'
-
+#require_relative 'database'
 
 class User
-  attr_reader :name, :username, :password, :email
+  attr_accessor :name, :username, :password, :email
 
-  def initialize(name,password, username, email)
+  def initialize(name, password, username, email)
     @name = name
-    @username = username
     @password = password
+    @username = username
     @email = email
   end
 
 
 end
 
-# dani = User.new("Michael Grossmann", "mgrossmann", "foobar", "michi@grossmann.com")
-# dani.to_database
+# dani = User.new("Dani", "foobar", "mgrossmann", "michi@grossmann.com")
+#CraigsDatabase.to_database(dani)
 # p dani.from_database('users')

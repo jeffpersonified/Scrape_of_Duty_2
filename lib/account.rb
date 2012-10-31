@@ -1,4 +1,4 @@
-require "./lib/database.rb"
+require_relative "database"
 
 class Account
   attr_reader :logged_in
