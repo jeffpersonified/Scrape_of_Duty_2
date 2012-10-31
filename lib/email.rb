@@ -1,25 +1,27 @@
 require 'mail'
-# require './lib/database.rb'
+require './lib/database.rb'
  # to be decided
 class Email
   attr_reader :sender, :body, :recipient
 
-  def initialize
+  def initialize(user_id)
     @sender     = "scrape.of.duty@gmail.com"
     @password   = "scrapeofduty"
-    @date       = DateTime.now #
+    @date       = DateTime.now
     @keyword    = "kittens" # =^..^=
     @search_url = "craigslist.com" #
-    @user       = "Test" #CraigsDatabase.get_items("users", "name")
-    @recipient  = @sender #CraigsDatabase.get_items("users", "email")
-    @body       = "hello world" # CraigsDatabase.get_items("posts", "title", "url", "price", "neighborhood", "category") # pending
+    @user       = CraigsDatabase.db_handler("SELECT name FROM users WHERE id = '#{user_id}';").flatten.to_s
+    @recipient  = CraigsDatabase.db_handler("SELECT email FROM users WHERE id = '#{user_id}';").flatten.to_s
+    @body       = CraigsDatabase.get_items("posts", "title", "post_url", "price", "neighborhood") # pending
+    # p @body
+    title = @body[0]
   end
 
   def to_s
     puts "#{@user},"
     puts "Your search for #{@keyword} on #{@date} produced the following results:\n"
-    self.each { |post| puts "#{post.title} (#{post.post_url}) #{post.price} at #{post.neighborhood} in the #{post.category} category\n" }
-    puts "Best,\n Scrape of Duty"
+    self.each { |post| puts "#{post[]} (#{post[]}) #{post[]} at #{post[]} in the #{post[]} category\n" }
+    puts "Best,\n Scrape of Duty 2"
   end
 
   def send
@@ -34,6 +36,15 @@ class Email
   end
 end
 
+# class EmailHandler
+#   db(user).each
+#   Email.new(user.id)
+#
+# end
+email = Email.new(1)
+# username = 1
+# p CraigsDatabase.db_handler("SELECT email FROM users WHERE id = '#{username}';")
+p CraigsDatabase.db_handler("SELECT p.* FROM posts p JOIN searches s on (s.id = p.search_id) JOIN users u on (u.id=s.user_id) WHERE u.id = 1;")
 
-email = Email.new
-email.send
+
+# email.send
