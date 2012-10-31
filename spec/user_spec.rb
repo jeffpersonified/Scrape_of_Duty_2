@@ -4,6 +4,7 @@ require './lib/user.rb'
 
 describe User do
   let(:user) { User.new("Daniela Grossmann", "dgrossmann", "iloveruby", "dg@dg.com") }
+  let(:user_dupl) { User.new("Daniela Grossmann", "dgrossmann", "iloveruby", "dg@dg.com") }
   let(:user_false) {User.new("Daniela Grossmann", "dgrossmann", "iloveruby", "123@dani.comrrhdf")}
   # let(:db) {SQLite3::Database.new('craigs_list.db')}
   context '#initialize' do
