@@ -10,7 +10,7 @@ class CraigsDatabase
 
   def self.to_database(table, object, foreign_key_id = nil)
     case table
-    when 'users'
+    when User
       insert_string = "INSERT INTO #{table} (name, password, username, email)
                       VALUES ('#{object.name}', '#{object.password}', '#{object.username}', '#{object.email}');"
 
