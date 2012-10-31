@@ -52,7 +52,7 @@ class Search
 
 end
 # #
-search = Search.new("appartment", "housing")
+search = Search.new("futon", "for sale")
 search.add_user("pantheman")
 CraigsDatabase.to_database(search)
 # puts search.gen_html

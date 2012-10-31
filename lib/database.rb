@@ -87,7 +87,7 @@ def self.find_item(search_word, search_class, table)
   end
 
   def self.db_handler(string)
-    db = SQLite3::Database.open('../db_trash/craigs_list.db')
+    db = SQLite3::Database.open('../db/craigs_list.db')
     result = db.execute(string)
     db.close
     result

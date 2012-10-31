@@ -1,4 +1,4 @@
-#require_relative 'database'
+require_relative 'database'
 
 class User
   attr_accessor :name, :username, :password, :email
@@ -13,6 +13,6 @@ class User
 
 end
 
-# dani = User.new("Dani", "foobar", "mgrossmann", "michi@grossmann.com")
-#CraigsDatabase.to_database(dani)
+# dani = User.new("Rene", "foobar", "renne", "rene@grossmann.com")
+# CraigsDatabase.to_database(dani)
 # p dani.from_database('users')

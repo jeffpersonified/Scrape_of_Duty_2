@@ -18,8 +18,8 @@ class Post
   end
 end
 
-# post = Post.new(['oudhsjfhksd','2012-10-30',"100","mission","hoojhdsfg","oijsdlkfj","http://sfbay.craigslist.org/search/hhh?query=driver&srchType=A&minAsk=0&maxAsk=1000000"])
-# post.to_db
+post = Post.new(['oudhsjfhksd','2012-10-30',"100","ebnr","ber","gre","http://sfbay.craigslist.org/search/sss?query=futon&srchType=A&minAsk=0&maxAsk=1000000"])
+post.to_db
 
-test = "http://sfbay.craigslist.org/search/hhh?query=driver&srchType=A&minAsk=0&maxAsk=1000000"
-puts test.length
+# test = "http://sfbay.craigslist.org/search/hhh?query=driver&srchType=A&minAsk=0&maxAsk=1000000"
+# puts test.length

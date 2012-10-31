@@ -1,5 +1,6 @@
 require 'mail'
-require './lib/database.rb'
+require 'date'
+require_relative 'database'
  # to be decided
 class Email
   attr_reader :sender, :body, :recipient, :password, :date, :keyword
@@ -8,20 +9,19 @@ class Email
     @sender     = "scrape.of.duty@gmail.com"
     @password   = "scrapeofduty"
     @date       = DateTime.now
-    @keyword    = "kittens" #
-    @search_url = "craigslist.com" #
-    @user       = CraigsDatabase.db_handler("SELECT name FROM users WHERE id = '#{user_id}';").flatten.to_s
-    @recipient  = CraigsDatabase.db_handler("SELECT email FROM users WHERE id = '#{user_id}';").flatten.to_s
+    @keyword    = CraigsDatabase.db_handler("SELECT keyword FROM searches WHERE user_id = '#{user_id}'").flatten[0]
+    @search_url = CraigsDatabase.db_handler("SELECT search_url FROM searches WHERE user_id = '#{user_id}' AND keyword = '#{@keyword}'").flatten[0]
+    @user       = CraigsDatabase.db_handler("SELECT name FROM users WHERE id = '#{user_id}';").flatten[0]
+    @recipient  = CraigsDatabase.db_handler("SELECT email FROM users WHERE id = '#{user_id}';").flatten[0]
     @body       = CraigsDatabase.get_items("posts", "title", "post_url", "price", "neighborhood") # pending
-    # p @body
-    title = @body[0]
   end
 
-  def to_s
-    puts "#{@user},"
-    puts "Your search for #{@keyword} on #{@date} produced the following results:\n"
-    self.each { |post| puts "#{post[]} (#{post[]}) #{post[]} at #{post[]} in the #{post[]} category\n" }
-    puts "Best,\n Scrape of Duty 2"
+  def compose_body
+     string = "#{@user},\n\n"
+     string << "Your search for #{@keyword}on #{@date.strftime('%F')} produced the following results:\n\n"
+        @body.each_with_index { |post, i| string << "#{i+1}) #{post[0]} (#{post[1]}) #{post[2]} in #{post[3]}\n\n" }
+     string << "Best,\n\nScrape of Duty 2"
+     string
   end
 
   def send
@@ -30,21 +30,11 @@ class Email
              :password => @password, :enable_starttls_auto => true,
              :openssl_verify_mode => 'none' }
     Mail.defaults { delivery_method :smtp, smtp }
-    message = "To: #{@recipient}\r\nFrom: scrape.of.duty@gmail.com\r\nSubject: Your Craigslist Query Results\r\n\r\n#{@body.to_s}"
+    message = "To: #{@recipient}\r\nFrom: scrape.of.duty@gmail.com\r\nSubject: Your Craigslist Query Results\r\n\r\n#{compose_body}"
     mail = Mail.new(message)
     mail.deliver!
   end
 end
 
-# class EmailHandler
-#   db(user).each
-#   Email.new(user.id)
-#
-# end
-email = Email.new(1)
-# username = 1
-# p CraigsDatabase.db_handler("SELECT email FROM users WHERE id = '#{username}';")
-p CraigsDatabase.db_handler("SELECT p.* FROM posts p JOIN searches s on (s.id = p.search_id) JOIN users u on (u.id=s.user_id) WHERE u.id = 1;")
-
-
-# email.send
+email = Email.new(2)
+email.send
