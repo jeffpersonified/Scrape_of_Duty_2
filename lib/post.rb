@@ -5,9 +5,9 @@ class Post
     @url      = array[0]
     @date     = Time.parse(array[1])
     @price    = array[2].empty? ? "not_listed" : array[2].strip[1..-1].to_i
-    @location = array[3].strip
+    @location = array[3]
     @title    = array[4].strip
-    @category = array[5].strip
+    @category = array[5]
     @search_url = array[6]
   end
 end

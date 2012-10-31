@@ -7,7 +7,7 @@ class Search
 
   def initialize(region="sfbay", max_price=1000000, min_price=0, search_terms)
     @region = region
-    @search_terms = search_terms
+    @search_terms = search_terms.gsub!("+", " ")
     @min_price = min_price.to_s
     @max_price = max_price.to_s
     @search_url = "http://#{@region}.craigslist.org/search/sss?query=#{@search_terms}&srchType=A&minAsk=#{@min_price}&maxAsk=#{@max_price}"
@@ -23,5 +23,5 @@ class Search
 
 end
 
-# search = Search.new("yankees")
-# search.gen_html
+#search = Search.new("yankees and redsox baseball")
+#puts search.gen_html
