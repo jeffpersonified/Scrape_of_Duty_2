@@ -2,13 +2,13 @@ require 'mail'
 require './lib/database.rb'
  # to be decided
 class Email
-  attr_reader :sender, :body, :recipient
+  attr_reader :sender, :body, :recipient, :password, :date, :keyword
 
   def initialize(user_id)
     @sender     = "scrape.of.duty@gmail.com"
     @password   = "scrapeofduty"
     @date       = DateTime.now
-    @keyword    = "kittens" # =^..^=
+    @keyword    = "kittens" #
     @search_url = "craigslist.com" #
     @user       = CraigsDatabase.db_handler("SELECT name FROM users WHERE id = '#{user_id}';").flatten.to_s
     @recipient  = CraigsDatabase.db_handler("SELECT email FROM users WHERE id = '#{user_id}';").flatten.to_s
