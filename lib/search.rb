@@ -4,13 +4,28 @@ require 'fakeweb'
 
 class Search
   attr_accessor :region, :search_terms, :min_price, :max_price, :search_url
+  VALID_CATEGORIES= Hash["community", "ccc", "events","eee", "gigs", "ggg", "housing", "hhh", "jobs", "jjj","personals", "ppp", "resumes", "rrr", "for sale", "sss", "services", "bbb"]
 
-  def initialize(region="sfbay", max_price=1000000, min_price=0, search_terms)
+
+  def initialize(search_terms, category="for sale", region="sfbay", max_price=1000000)
+
     @region = region
     @search_terms = search_terms.gsub!("+", " ")
-    @min_price = min_price.to_s
     @max_price = max_price.to_s
-    @search_url = "http://#{@region}.craigslist.org/search/sss?query=#{@search_terms}&srchType=A&minAsk=#{@min_price}&maxAsk=#{@max_price}"
+    @category = convert_category(category)
+    @search_url = "http://#{@region}.craigslist.org/search/#{@category}?query=#{@search_terms}&srchType=A&minAsk=0&maxAsk=#{@max_price}"
+  end
+
+  def valid_category?(category)
+    VALID_CATEGORIES.has_key?(category)
+  end
+
+  def convert_category(category)
+    if valid_category?(category)
+      VALID_CATEGORIES.each {|key, value| return value if key == category}
+    else
+      puts "not valid bro"
+    end
   end
 
   def gen_html
@@ -22,6 +37,6 @@ class Search
   end
 
 end
-
-#search = Search.new("yankees and redsox baseball")
-#puts search.gen_html
+# #
+# search = Search.new("maid", "housing")
+# puts search.gen_html
