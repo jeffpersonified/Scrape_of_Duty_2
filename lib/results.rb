@@ -1,6 +1,6 @@
 require 'nokogiri'
-require_relative 'search'
-require_relative 'post'
+# require_relative 'search'
+# require_relative 'post'
 
 class Results
   attr_reader :doc, :search_url
@@ -31,7 +31,7 @@ class Results
   end
 
   def to_s
-    posts.each { |post| puts "listing: #{post.title}\nurl: #{post.url}\n\n" }
+    posts.each { |post| puts "listing: #{post.title}\nurl: #{post.post_url}\n\n" }
   end
 end
 

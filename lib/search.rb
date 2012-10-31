@@ -1,19 +1,24 @@
 require 'Nokogiri'
 require 'open-uri'
 require 'fakeweb'
+require_relative 'user'
+# require_relative 'results'
+# require_relative 'post'
+require_relative 'database'
+
 
 class Search
-  attr_accessor :region, :search_terms, :min_price, :max_price, :search_url
+  attr_accessor :region, :keyword, :max_price, :category, :search_url, :username
+
   VALID_CATEGORIES= Hash["community", "ccc", "events","eee", "gigs", "ggg", "housing", "hhh", "jobs", "jjj","personals", "ppp", "resumes", "rrr", "for sale", "sss", "services", "bbb"]
 
 
-  def initialize(search_terms, category="for sale", region="sfbay", max_price=1000000)
-
+  def initialize(keyword, category="for sale", region="sfbay", max_price=1000000)
     @region = region
-    @search_terms = search_terms.gsub!("+", " ")
+    @keyword = keyword
     @max_price = max_price.to_s
     @category = convert_category(category)
-    @search_url = "http://#{@region}.craigslist.org/search/#{@category}?query=#{@search_terms}&srchType=A&minAsk=0&maxAsk=#{@max_price}"
+    @search_url = "http://#{@region}.craigslist.org/search/#{@category}?query=#{@keyword.gsub('+', ' ')}&srchType=A&minAsk=0&maxAsk=#{@max_price}"
   end
 
   def valid_category?(category)
@@ -32,11 +37,22 @@ class Search
     return Nokogiri::HTML(open(@search_url))
   end
 
+  def add_user(username)
+    @username = username
+  end
+
   def results
     return Results.new(gen_html, @search_url)
+  end
+  #{object.search_url}', '#{object.category}', '#{object.region}',
+  # '#{object.min_price}', '#{object.max_price}', '#{object.keyword}',
+  def to_db
+    CraigsDatabase.to_database(self)
   end
 
 end
 # #
-# search = Search.new("maid", "housing")
+search = Search.new("appartment", "housing")
+search.add_user("pantheman")
+CraigsDatabase.to_database(search)
 # puts search.gen_html
