@@ -1,5 +1,5 @@
 require 'sqlite3'
-require './lib/database.rb'
+require_relative 'database'
 
 
 class User
