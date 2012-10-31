@@ -36,7 +36,7 @@ describe Post do
 
   context "#title" do
     it "should return the correct title" do
-      pending #post.title.should eq("concerts, sporting events, shows and more in the bay area") # conflating title and category
+      post.title.should eq("concerts, sporting events, shows and more in the bay area")
     end
     it "should return a string" do
       post.title.should be_instance_of String
@@ -56,13 +56,11 @@ describe Post do
   context "#price" do
     let(:post_with_price){ search.results.posts[2] }
     it "should return the right price" do
-      pending # post_with_price.price.should eq(2) # only returns 0, never real price
+      post_with_price.price.should eq(100) # only returns 0, never real price
     end
-    it "should return an integer" do
-      post.price.should eq(0)
-    end
-    it "should return 0 if the price isn't included in the listing" do
-      post.price.should eq(0)
+
+    it "should return not_listed if the price isn't included in the listing" do
+      post.price.should eq("not_listed")
     end
   end
 end

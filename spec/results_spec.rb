@@ -2,7 +2,6 @@ require 'simplecov'
 SimpleCov.start
 
 require './lib/results.rb'
-require './lib/post.rb'
 require 'fakeweb'
 
 describe Results do
@@ -30,6 +29,17 @@ describe Results do
     end
   end
 
+  context "#post_attributes" do
+    it "should be an instance of array" do
+      results.post_attributes.should be_instance_of Array
+    end
+    it "each set of attributes should contain 6 elements" do
+      results.post_attributes.each do |set|
+        set.length.should eq(6)
+      end
+    end
+  end
+
   context "#posts" do
     it "should be an instance of Array" do
       results.posts.should be_an_instance_of Array
@@ -39,23 +49,4 @@ describe Results do
       results.posts.each { |post| post.should be_instance_of Post }
     end
   end
-
-  # context "links" do
-  #   it "should return an array" do
-  #     results.links.should be_an_instance_of Array
-  #   end
-  #
-  #   it "should contain html links in the array" do
-  #     results.links.first[0..3].should == "http"
-  #   end
-  #
-  #   it "should return only posting links" do
-  #     results.links.each do |link|
-  #       link.should_not match /about/
-  #       link.should_not match /search/
-  #       link.should match /\d{10}/
-  #     end
-  #   end
-  # end
-
 end
