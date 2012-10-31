@@ -22,7 +22,6 @@ class Results
       post_attributes << [links, date, price, location, title, category, @search_url]
     end
     post_attributes
-    CraigsDatabase.to_database()
   end
 
   def posts
@@ -36,5 +35,5 @@ class Results
   end
 end
 
-# search = Search.new("yankees")
-# puts search.results
+search = Search.new("baseball and yankees")
+puts search.results.posts.inspect
